@@ -1,0 +1,24 @@
+{
+  "name": "carweb",
+  "version": "0.0.1",
+  "description": "API client for the vehicle registration lookup at Carweb.co.uk",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/riskpenguin/node-carweb.git"
+  },
+  "author": "Richard Marr",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/riskpenguin/node-carweb/issues"
+  },
+  "dependencies": {
+    "xml2js": "~0.4.1"
+  },
+  "devDependencies": {
+    "mocha": "~1.17.1"
+  }
+}
