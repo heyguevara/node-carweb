@@ -1,6 +1,6 @@
 {
   "name": "carweb",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "API client for the vehicle registration lookup at Carweb.co.uk",
   "main": "index.js",
   "scripts": {
