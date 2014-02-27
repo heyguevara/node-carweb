@@ -32,11 +32,13 @@ Carweb.prototype.fetch = function( registration, callback ){
 		strKey1 : this.config.key,
 		strVersion : this.config.version,
 		strVRM : registration.replace(/[\s]+/ig,'')
-	};
+	},
+	url = this.config.url + "?" + qs.stringify(params);
 	
-	request( this.config.url + "?" + qs.stringify(params), function (err, response, body ) {
+	request( url, function (err, response, body ) {
 		if ( err ) return callback(err);
 		if ( response.statusCode != 200 ) return callback(new Error("returned code "+response.statusCode));
+		if ( !body ) return callback(new Error("no response body returned for request '"+url+"'"));
 		
 		self.parse( body, callback );
 	});
@@ -45,9 +47,22 @@ Carweb.prototype.fetch = function( registration, callback ){
 Carweb.prototype.parse = function( data, callback ){
 	var parser = new xml2js.Parser();
 	parser.parseString( data, function (err, result) {
-		// the "&&" is just to avoid an undefined error
-		// Assume one car at a timex§
-        callback( err, result && _clean(result.GetVehicles.DataArea[0].Vehicles[0].Vehicle[0]) ); 
+		if ( err ) return callback(err);
+		if ( !result ) return callback(new Error("Failed to parse JSON, not sure why this might happen"));
+		
+		// This is an error response, even though the HTTP status was 200
+		if ( result.VRRError ) {
+			
+			var details = result.VRRError.DataArea[0].Error[0].Details[0],
+				code = details.ErrorCode[0],
+				text = details.ErrorDescription[0];
+			
+			return callback( new Error("Code "+code+": "+text) );
+		}
+		
+		// Default case - Assume one car at a time
+		return callback( undefined, _clean(result.GetVehicles.DataArea[0].Vehicles[0].Vehicle[0]) ); 
+		
     });
 };
 
