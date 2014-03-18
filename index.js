@@ -6,11 +6,11 @@ var fs = require('fs'),
 var Carweb = function( _config ){
 	this.config = {
 		url : 'https://www1.carwebuk.com/CarweBVRRB2Bproxy/carwebvrrwebservice.asmx/strB2BGetVehicleByVRM',
-		username : 'jFloat',
-		password : '33339688',
+		username : '',
+		password : '',
 		ref : 'test',
 		description : 'test',
-		key : 'jf65tr78',
+		key : '',
 		version : '0.31.1'
 	}
 	// allow override
